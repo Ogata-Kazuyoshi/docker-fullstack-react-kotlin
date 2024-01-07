@@ -1,0 +1,31 @@
+version: '3'
+services:
+  static:
+    container_name: frontend-static
+    build: ./client
+    volumes:
+      - ./client/app/dist:/var/www/html
+    ports:
+      - 6120:80 #ubuntuのhttpリクエストは８０ポートで受け付ける。そのため、コンテナ内部ポートを80にしている
+
+  nodereact:
+    container_name: node_react
+    build: ./client/app
+    volumes:
+      - ./client/app:/app
+    tty: true
+    ports:
+      - 6110:5173 #vite-reactのデフォルト開放ぽーとは5173。ただし、vite.config.jsにPORT指定できるので、変更した場合は：右側のコンテナ内部ポートも変更すること
+    working_dir: /app
+    command: >
+      bash -c 'npm i && npm run build:watch && npm run dev'
+
+  kotlin:
+    container_name: kotlin-server
+    build: ./server
+    volumes:
+      - ./server/server:/home/app
+    working_dir: /home/app
+    ports:
+      - 6200:8080
+    command: ./gradlew bootRun
