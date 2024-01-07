@@ -9,7 +9,7 @@ services:
       - 6120:80 #ubuntuのhttpリクエストは８０ポートで受け付ける。そのため、コンテナ内部ポートを80にしている
 
   nodereact:
-    container_name: node_react
+    container_name: react-frontserver
     build: ./client/app
     volumes:
       - ./client/app:/app
@@ -21,7 +21,7 @@ services:
       bash -c 'npm i && npm run build:watch && npm run dev'
 
   kotlin:
-    container_name: kotlin-server
+    container_name: kotlin-backserver
     build: ./server
     volumes:
       - ./server/server:/home/app
