@@ -22,7 +22,7 @@ services:
 
   kotlin:
     container_name: kotlin-backserver
-    build: ./server
+    build: ./server/server
     volumes:
       - ./server/server:/home/app
     working_dir: /home/app
